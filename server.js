@@ -4,10 +4,16 @@ const app = express();
 const { createServer } = require("http");
 const { disconnect } = require("process");
 const httpServer = createServer(app);
+const dotenv = require("dotenv");
 
+dotenv.config();
+
+const isProduction = process.env.NODE_ENV === "production";
 const io = socket(httpServer, {
   cors: {
-    origin: ["http://localhost:3000"],
+    origin: isProduction
+      ? "https://chat-app-samarth44600.vercel.app/"
+      : "http://localhost:3000",
   },
 });
 
