@@ -9,6 +9,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const isProduction = process.env.NODE_ENV === "production";
+const port = process.env.PORT;
 const io = socket(httpServer, {
   cors: {
     origin: isProduction
@@ -81,6 +82,6 @@ io.on("connection", (socket) => {
   });
 });
 
-httpServer.listen(8000, () => {
+httpServer.listen(port, () => {
   console.log("Socket listened ");
 });
