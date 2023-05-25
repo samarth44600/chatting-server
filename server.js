@@ -18,7 +18,11 @@ const io = socket(httpServer, {
 });
 
 let users = [];
-let messages = [];
+
+app.get("/", (req, res) => {
+  res.send("Server is up and running");
+});
+
 // socket connection
 io.on("connection", (socket) => {
   console.log(socket.id, "user connected");
