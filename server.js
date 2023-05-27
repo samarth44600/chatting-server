@@ -13,7 +13,7 @@ const port = process.env.PORT;
 const io = socket(httpServer, {
   cors: {
     origin: isProduction
-      ? "https://chat-app-samarth44600.vercel.app"
+      ? ["https://chat-app-samarth44600.vercel.app", "https://chatting-client.vercel.app", "https://chatting-client-samarth44600.vercel.app"]
       : "http://localhost:3000",
   },
 });
