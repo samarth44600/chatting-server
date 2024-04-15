@@ -1,20 +1,17 @@
 const socket = require("socket.io");
 const express = require("express");
+const http = require("http");
 const app = express();
-const { createServer } = require("http");
-const { disconnect } = require("process");
-const httpServer = createServer(app);
+const server = http.createServer(app);
 const dotenv = require("dotenv");
 
 dotenv.config();
 
-const isProduction = process.env.NODE_ENV === "production";
-const port = process.env.PORT;
-const io = socket(httpServer, {
+
+const port = 8008;
+const io = socket(server, {
   cors: {
-    origin: isProduction
-      ? ["https://chat-app-samarth44600.vercel.app", "https://chatting-client.vercel.app", "https://chatting-client-samarth44600.vercel.app"]
-      : "http://localhost:3000",
+    origin: ["*"]
   },
 });
 
@@ -43,9 +40,8 @@ io.on("connection", (socket) => {
     });
     // for others
     socket.broadcast.emit("infoMessage", {
-      textMessage: `${
-        socket.userName ? userName : "A new user"
-      } joined the chat`,
+      textMessage: `${socket.userName ? userName : "A new user"
+        } joined the chat`,
       infoMessage: true,
     });
     users = [...users, { userName: socket.userName, id: socket.id }];
@@ -82,6 +78,6 @@ io.on("connection", (socket) => {
   });
 });
 
-httpServer.listen(port, () => {
-  console.log("Socket listened ");
+server.listen(port, () => {
+  console.log(`Server listening on http://localhost:${port}/`);
 });
